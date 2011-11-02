@@ -1,9 +1,8 @@
 package w10j1.tandem.logic.commandprocessor.api;
 
-import java.util.ArrayList;
-
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 import w10j1.tandem.storage.task.api.Task;
+import w10j1.tandem.util.fileoprator.FileOperator;
 
 /**
  *
@@ -24,5 +23,7 @@ public interface CommandProcessor {
     public void undo();
     
     public DataKeeper getDataKeeper();
+
+	public FileOperator getFileOperator();
     
 }

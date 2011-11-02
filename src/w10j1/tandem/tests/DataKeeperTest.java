@@ -26,34 +26,34 @@ public class DataKeeperTest {
 	@Test
 	public void testDataKeeperImpl() {
 		assertNotNull(dk);
-		assertNotNull(dk.taskList);
+		assertNotNull(dk.getTaskList());
 	}
 	
 	@Test
 	public void testAddTask() {
-		int oldSize = dk.taskList.size();
+		int oldSize = dk.getTaskList().size();
 		Calendar time = Calendar.getInstance();
 		dk.addTask(new TaskImpl(time, "dummy msg"));
-		assertEquals(oldSize+1, dk.taskList.size());
+		assertEquals(oldSize+1, dk.getTaskList().size());
 		for (int i = 0; i < 5; i++) {
-			int old = dk.taskList.size();
+			int old = dk.getTaskList().size();
 			dk.addTask(new TaskImpl(Calendar.getInstance(), "dummy msg"));
-			assertEquals(old+1, dk.taskList.size());
+			assertEquals(old+1, dk.getTaskList().size());
 		}
-		assertEquals(oldSize + 6, dk.taskList.size());
+		assertEquals(oldSize + 6, dk.getTaskList().size());
 	}
 
 	@Test
 	public void testAscDue() {
 		dk.ascDue();
-		assertTrue(dk.taskList.get(0).getDue().compareTo(dk.taskList.get(1).getDue()) > 0);
+		assertTrue(dk.getTaskList().get(0).getDue().compareTo(dk.getTaskList().get(1).getDue()) > 0);
 	}
 
 	@Test
 	public void testDecDue() {
-		assertEquals(3, dk.taskList.size());
+		assertEquals(3, dk.getTaskList().size());
 		dk.decDue();
-		assertTrue(dk.taskList.get(0).getDue().compareTo(dk.taskList.get(1).getDue()) > 0);
+		assertTrue(dk.getTaskList().get(0).getDue().compareTo(dk.getTaskList().get(1).getDue()) > 0);
 	}
 	
 	@Test
@@ -78,18 +78,27 @@ public class DataKeeperTest {
 
 	@Test
 	public void testRemoveTask() {
-		int oldSize = dk.taskList.size();
+		int oldSize = dk.getTaskList().size();
 		for (int i = 0; i < 5; i++) {
-			int old = dk.taskList.size();
-			dk.removeTask(dk.taskList.get(i));
-			assertEquals(old-1, dk.taskList.size());
+			int old = dk.getTaskList().size();
+			dk.removeTask(dk.getTaskList().get(i));
+			assertEquals(old-1, dk.getTaskList().size());
 		}
-		assertEquals(oldSize - 5, dk.taskList.size());
+		assertEquals(oldSize - 5, dk.getTaskList().size());
 	}
 
 	@Test
 	public void testUndo() {
-		fail("Not yet implemented"); // TODO
+		int oldSize = dk.getTaskList().size();
+		dk.removeTask(dk.getTaskList().get(0));
+		assertEquals(oldSize-1, dk.getTaskList().size());
+		dk.undo();
+		assertEquals(oldSize, dk.getTaskList().size());
+		
+		Calendar time = Calendar.getInstance();
+		dk.addTask(new TaskImpl(time, "dummy msg"));
+		assertEquals(oldSize+1, dk.getTaskList().size());
+		dk.undo();
+		assertEquals(oldSize, dk.getTaskList().size());
 	}
-
 }

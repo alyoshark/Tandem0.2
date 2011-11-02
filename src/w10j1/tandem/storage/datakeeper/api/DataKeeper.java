@@ -1,5 +1,7 @@
 package w10j1.tandem.storage.datakeeper.api;
 
+import java.util.ArrayList;
+
 import com.mdimension.jchronic.utils.Span;
 
 import w10j1.tandem.storage.task.api.Task;
@@ -33,5 +35,9 @@ public interface DataKeeper {
     
     public void removeTask(Task task);
     
-    public void undo();
+    public boolean undo();
+
+	public ArrayList<Task> getTaskList();
+
+	public ArrayList<Task> getSearchList();
 }

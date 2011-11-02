@@ -10,69 +10,76 @@ import w10j1.tandem.storage.task.api.Task;
 import w10j1.tandem.util.fileoprator.FileOperator;
 
 /**
- *
+ * 
  * @author Chris
  */
 public class CommandProcessorImpl implements CommandProcessor {
 
-    public FileOperator fo = new FileOperator();
-    public DataKeeper dk = new DataKeeperImpl();
+	private FileOperator fo = new FileOperator();
+	private DataKeeper dk = new DataKeeperImpl();
 
-    public CommandProcessorImpl() {
-        this.fo.createFile();
-        String dataFromFile = this.fo.readFile();
-        if (dataFromFile.isEmpty()) {
-            return;
-        }
-        this.dk.fileToMem(fo.readFile());
-    }
+	public CommandProcessorImpl() {
+		this.getFileOperator().createFile();
+		String dataFromFile = this.getFileOperator().readFile();
+		if (dataFromFile.isEmpty()) {
+			return;
+		}
+		this.getDataKeeper().fileToMem(getFileOperator().readFile());
+	}
 
-    @Override
-    public void add(Task task) {
-        this.dk.addTask(task);
-        String updateList = dk.memToFile();
-        this.fo.writeFile(updateList);
-    }
+	@Override
+	public void add(Task task) {
+		this.getDataKeeper().addTask(task);
+		String updateList = getDataKeeper().memToFile();
+		this.getFileOperator().writeFile(updateList);
+	}
 
-    @Override
-    public String search(String command) {
-        try {
-            Span interval = Chronic.parse(command);
-            dk.searchTask(interval);
-            return dk.resultString();
-        } catch (Exception e0) {
-            try {
-                dk.searchTask(command);
-                return dk.resultString();
-            } catch (Exception e1) {
-                throw e0;
-            }
-        }
-    }
+	@Override
+	public String search(String command) {
+		try {
+			Span interval = Chronic.parse(command);
+			getDataKeeper().searchTask(interval);
+			return getDataKeeper().resultString();
+		} catch (Exception e0) {
+			try {
+				getDataKeeper().searchTask(command);
+				return getDataKeeper().resultString();
+			} catch (Exception e1) {
+				throw e0;
+			}
+		}
+	}
 
-    @Override
-    public void edit(String command) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public void edit(String command) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public void remove(String command) {
-        this.dk.removeTask(((DataKeeperImpl) this.dk).searchList.get(Integer.parseInt(command)));
-    }
+	@Override
+	public void remove(String command) {
+		this.getDataKeeper().removeTask(
+				((DataKeeperImpl) this.getDataKeeper()).getSearchList().get(
+						Integer.parseInt(command)));
+	}
 
-    @Override
-    public void setDone(String command) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public void setDone(String command) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public void undo() {
-        dk.undo();
-        fo.writeFile(dk.memToFile());
-    }
+	@Override
+	public void undo() {
+		if (getDataKeeper().undo())
+			getFileOperator().writeFile(getDataKeeper().memToFile());
+	}
 
-    @Override
-    public DataKeeper getDataKeeper() {
-        return this.dk;
-    }
+	@Override
+	public DataKeeper getDataKeeper() {
+		return dk;
+	}
+
+	@Override
+	public FileOperator getFileOperator() {
+		return fo;
+	}
 }

@@ -14,7 +14,7 @@ enum TaskComparator implements Comparator<Task> {
 
         @Override
         public int compare(Task o1, Task o2) {
-            return (int) (o1.getDue().getTime().getTime() - o2.getDue().getTime().getTime());
+            return (int) (o1.getDue().compareTo(o2.getDue()));
         }
     },
     PRIORITY_SORT {

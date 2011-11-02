@@ -27,10 +27,9 @@ public class CommandProcessorTest {
 
 	@Test
 	public void testAdd() {
-		int oldSize = ((DataKeeperImpl) cp.getDataKeeper()).taskList.size();
+		int oldSize = cp.getDataKeeper().getTaskList().size();
 		cp.add(new TaskImpl());
-		assertEquals(oldSize + 1,
-				((DataKeeperImpl) cp.getDataKeeper()).taskList.size());
+		assertEquals(oldSize + 1, cp.getDataKeeper().getTaskList().size());
 	}
 
 	@Test
@@ -45,10 +44,9 @@ public class CommandProcessorTest {
 
 	@Test
 	public void testRemove() {
-		int oldSize = ((DataKeeperImpl) cp.getDataKeeper()).taskList.size();
+		int oldSize = cp.getDataKeeper().getTaskList().size();
 		cp.remove("1");
-		assertEquals(oldSize - 1,
-				((DataKeeperImpl) cp.getDataKeeper()).taskList.size());
+		assertEquals(oldSize - 1, cp.getDataKeeper().getTaskList().size());
 	}
 
 	@Test
@@ -58,12 +56,21 @@ public class CommandProcessorTest {
 
 	@Test
 	public void testUndo() {
-		fail("Not yet implemented"); // TODO
+		int oldSize = ((DataKeeperImpl) cp.getDataKeeper()).getTaskList()
+				.size();
+		cp.add(new TaskImpl());
+		assertEquals(oldSize + 1, cp.getDataKeeper().getTaskList().size());
+		cp.undo();
+		assertEquals(oldSize, cp.getDataKeeper().getTaskList().size());
+		cp.remove("1");
+		assertEquals(oldSize - 1, cp.getDataKeeper().getTaskList().size());
+		cp.undo();
+		assertEquals(oldSize, cp.getDataKeeper().getTaskList().size());
 	}
 
 	@Test
 	public void testGetDataKeeper() {
-		fail("Not yet implemented"); // TODO
+		assertNotNull(cp.getDataKeeper());
 	}
 
 }
