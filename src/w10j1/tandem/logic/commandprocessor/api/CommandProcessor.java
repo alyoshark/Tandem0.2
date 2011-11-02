@@ -2,7 +2,7 @@ package w10j1.tandem.logic.commandprocessor.api;
 
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 import w10j1.tandem.storage.task.api.Task;
-import w10j1.tandem.util.fileoprator.FileOperator;
+import w10j1.tandem.util.fileoprator.FileOperatorAPI;
 
 /**
  *
@@ -12,7 +12,7 @@ public interface CommandProcessor {
 
     public void add(Task task);
 
-    public String search(String command);
+    public String search(String command) throws Exception;
 
     public void edit(String command);
 
@@ -24,6 +24,6 @@ public interface CommandProcessor {
     
     public DataKeeper getDataKeeper();
 
-	public FileOperator getFileOperator();
+	public FileOperatorAPI getFileOperator();
     
 }

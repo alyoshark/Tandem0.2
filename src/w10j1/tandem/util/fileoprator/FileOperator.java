@@ -20,15 +20,16 @@ import java.io.FileNotFoundException;
  *
  * @author Chris
  */
-public class FileOperator {
+public class FileOperator implements FileOperatorAPI {
 
     protected String path = "weird_file_name.txt";
     protected File fileName = new File(path);
 
-    /**
-     * File initialization.
-     */
-    public void createFile() {
+    /* (non-Javadoc)
+	 * @see w10j1.tandem.util.fileoprator.FileOperatorAPI#createFile()
+	 */
+    @Override
+	public void createFile() {
         if (!fileName.exists()) {
             try {
                 fileName.createNewFile();
@@ -38,12 +39,11 @@ public class FileOperator {
         }
     }
 
-    /**
-     * File read, read the whole file.
-     * 
-     * @return readStr
-     */
-    public String readFile() {
+    /* (non-Javadoc)
+	 * @see w10j1.tandem.util.fileoprator.FileOperatorAPI#readFile()
+	 */
+    @Override
+	public String readFile() {
         String read;
         BufferedReader bufRead;
         FileReader fileReader;
@@ -66,13 +66,11 @@ public class FileOperator {
         return readStr.toString();
     }
 
-    /**
-     * Append to file with newStr
-     * 
-     * @param newStr
-     *            the string to be appended to file
-     */
-    public void appendToFile(String newStr) {
+    /* (non-Javadoc)
+	 * @see w10j1.tandem.util.fileoprator.FileOperatorAPI#appendToFile(java.lang.String)
+	 */
+    @Override
+	public void appendToFile(String newStr) {
         try {
             BufferedWriter fileOut = new BufferedWriter(new FileWriter(
                     fileName, true));
@@ -83,13 +81,11 @@ public class FileOperator {
         }
     }
 
-    /**
-     * Write to file with newStr
-     * 
-     * @param newStr
-     *            the string to be written to file (rewrite)
-     */
-    public void writeFile(String newStr) {
+    /* (non-Javadoc)
+	 * @see w10j1.tandem.util.fileoprator.FileOperatorAPI#writeFile(java.lang.String)
+	 */
+    @Override
+	public void writeFile(String newStr) {
         try {
             BufferedWriter fileOut = new BufferedWriter(
                     new FileWriter(fileName));
@@ -100,16 +96,11 @@ public class FileOperator {
         }
     }
 
-    /**
-     * Replace the first line with the specified string with a new string
-     * provided.
-     * 
-     * @param oldStr
-     *            content to search
-     * @param newStr
-     *            content to replace
-     */
-    public void replaceBy(String oldStr, String newStr) {
+    /* (non-Javadoc)
+	 * @see w10j1.tandem.util.fileoprator.FileOperatorAPI#replaceBy(java.lang.String, java.lang.String)
+	 */
+    @Override
+	public void replaceBy(String oldStr, String newStr) {
         String temp = "";
         try {
             FileInputStream dataInputStream = new FileInputStream(fileName);
