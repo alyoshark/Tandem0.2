@@ -23,19 +23,19 @@ public class CommandProcessorImpl implements CommandProcessor {
 	private DataKeeper dk = new DataKeeperImpl();
 
 	public CommandProcessorImpl() {
-		this.getFileOperator().createFile();
-		String dataFromFile = this.getFileOperator().readFile();
+		getFileOperator().createFile();
+		String dataFromFile = getFileOperator().readFile();
 		if (dataFromFile.isEmpty()) {
 			return;
 		}
-		this.getDataKeeper().fileToMem(getFileOperator().readFile());
+		getDataKeeper().fileToMem(getFileOperator().readFile());
 	}
 
 	@Override
 	public void add(Task task) {
-		this.getDataKeeper().addTask(task);
+		getDataKeeper().addTask(task);
 		String updateList = getDataKeeper().memToFile();
-		this.getFileOperator().writeFile(updateList);
+		getFileOperator().writeFile(updateList);
 	}
 
 	@Override
@@ -81,13 +81,14 @@ public class CommandProcessorImpl implements CommandProcessor {
 
 	@Override
 	public void edit(String command) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		Editor ed = new Editor();
+		ed.edit(command, getDataKeeper());
 	}
 
 	@Override
 	public void remove(String command) {
-		this.getDataKeeper().removeTask(
-				((DataKeeperImpl) this.getDataKeeper()).getSearchList().get(
+		getDataKeeper().removeTask(
+				((DataKeeperImpl) getDataKeeper()).getSearchList().get(
 						Integer.parseInt(command)));
 	}
 

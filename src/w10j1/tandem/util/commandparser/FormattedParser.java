@@ -50,7 +50,6 @@ public class FormattedParser {
 	 */
 	private String rawInput;
 	private String[] commandDetails;
-	private char request;
 	private boolean dateIsValid; // indicate whether date is valid
 	private boolean timeIsValid; // indicate whether time value is valid
 	private boolean timeExists; // indicate whether the user entered the time
@@ -79,9 +78,8 @@ public class FormattedParser {
 	 */
 	public void processInput() {
 		if (!Character.isDigit(rawInput.charAt(0))) {
-			request = rawInput.charAt(0);
+			rawInput.charAt(0);
 		} else {
-			request = 'a';
 		}
 	}
 
@@ -144,24 +142,35 @@ public class FormattedParser {
 		}
 	}
 
-	private void processTime() {
-		Matcher timeIsValidMatcher = TIME_VALID_PATTERN
-				.matcher(commandDetails[TIME_INDEX]);
-		Matcher timeExistsMatcher = TIME_EXISTS_PATTERN
-				.matcher(commandDetails[TIME_INDEX]);
-		if (timeIsValidMatcher.find()) {
-			hour = (short) Integer.parseInt(timeIsValidMatcher
-					.group(HOUR_MATCHER_INDEX));
-			minute = (short) Integer.parseInt(timeIsValidMatcher
-					.group(MINUTE_MATCHER_INDEX));
-			timeIsValid = true;
-		} else if (timeExistsMatcher.find()) {
-			timeExists = true;
-			System.out
-					.println("Time value is invalid. It will be set to the default value 00:00");
-		} else {
-			System.out
-					.println("Time not entered. It will be set to the default value 00:00");
+	private void processTime() throws NumberFormatException,
+			ArrayIndexOutOfBoundsException {
+		try {
+			Matcher timeIsValidMatcher = TIME_VALID_PATTERN
+					.matcher(commandDetails[TIME_INDEX]);
+			Matcher timeExistsMatcher = TIME_EXISTS_PATTERN
+					.matcher(commandDetails[TIME_INDEX]);
+			if (timeIsValidMatcher.find()) {
+				hour = (short) Integer.parseInt(timeIsValidMatcher
+						.group(HOUR_MATCHER_INDEX));
+				minute = (short) Integer.parseInt(timeIsValidMatcher
+						.group(MINUTE_MATCHER_INDEX));
+				timeIsValid = true;
+			} else if (timeExistsMatcher.find()) {
+				timeExists = true;
+				System.out
+						.println("Time value is invalid. It will be set to the default value 00:00");
+			} else {
+				System.out
+						.println("Time not entered. It will be set to the default value 00:00");
+			}
+		} catch (NumberFormatException e1) {
+			Logger.getLogger(FormattedParser.class.getName()).log(Level.SEVERE,
+					null, e1);
+			throw e1;
+		} catch (ArrayIndexOutOfBoundsException e2) {
+			Logger.getLogger(FormattedParser.class.getName()).log(Level.SEVERE,
+					null, e2);
+			throw e2;
 		}
 	}
 
