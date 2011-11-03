@@ -75,6 +75,14 @@ public class DataKeeperImpl implements DataKeeper {
 	}
 
 	@Override
+	public void initDataKeeper() {
+		ascDue();
+		int len = Math.min(taskList.size(), 10);
+		for (int i = 0; i < len; i++)
+			searchList.add(taskList.get(i));
+	}
+	
+	@Override
 	public void fileToMem(String fromFile) {
 		String[] tempList = fromFile.split("\r\n");
 		for (String task : tempList) {
@@ -175,7 +183,7 @@ public class DataKeeperImpl implements DataKeeper {
 	public undoState getRollBack() {
 		return rollBack;
 	}
-	
+
 	public Task getTempTask() {
 		return tempTask;
 	}

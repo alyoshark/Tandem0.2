@@ -21,8 +21,10 @@ public interface DataKeeper {
     public String decPriority();
 
     public String memToFile();
-    
-    public void fileToMem(String fromFile);
+
+	public void initDataKeeper();
+
+	public void fileToMem(String fromFile);
     
     public String resultString();
     
