@@ -80,7 +80,7 @@ public class CommandProcessorImpl implements CommandProcessor {
 	}
 
 	@Override
-	public void edit(String command) {
+	public void edit(String command) throws NumberFormatException, ParseException {
 		Editor ed = new Editor();
 		ed.edit(command, getDataKeeper());
 	}

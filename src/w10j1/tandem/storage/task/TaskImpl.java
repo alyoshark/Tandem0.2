@@ -75,6 +75,13 @@ public class TaskImpl implements Task {
         this.due = due;
         this.pcs.firePropertyChange(PROP_DUE, old, due);
     }
+    
+    @Override
+    public void setDesc(String desc) {
+        String old = this.desc;
+        this.desc = desc;
+        this.pcs.firePropertyChange(PROP_DESC, old, desc);
+    }
 
     @Override
     public void setPriority(Priority priority) {

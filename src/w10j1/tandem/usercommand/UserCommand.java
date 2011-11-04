@@ -73,7 +73,7 @@ public class UserCommand {
 						+ " Please check your input of for the date and time fields\n";
 			} catch (ArrayIndexOutOfBoundsException e1) {
 				Logger.getLogger(UserCommand.class.getName()).log(Level.SEVERE,
-						null, e1);
+						"", e1);
 				executionResultStr = "Sorry, adding of the task failed due to inadequate number of inputs :O\n";
 			}
 		case "s":

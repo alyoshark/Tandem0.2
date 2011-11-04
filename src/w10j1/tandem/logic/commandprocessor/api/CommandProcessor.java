@@ -1,5 +1,7 @@
 package w10j1.tandem.logic.commandprocessor.api;
 
+import java.text.ParseException;
+
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 import w10j1.tandem.storage.task.api.Task;
 import w10j1.tandem.util.fileoprator.FileOperatorAPI;
@@ -14,7 +16,7 @@ public interface CommandProcessor {
 
     public String search(String command) throws Exception;
 
-    public void edit(String command);
+    public void edit(String command) throws NumberFormatException, ParseException;
 
     public void remove(String command);
 

@@ -32,6 +32,8 @@ public interface Task {
     public Priority getPriority();
 
     public void setDue(Calendar due);
+    
+    public void setDesc(String content);
 
     public void setStatus(boolean status);
 
@@ -46,6 +48,7 @@ public interface Task {
             PropertyChangeListener listener);
     
     public static final String PROP_DUE = "due";
+    public static final String PROP_DESC = "desc";
     public static final String PROP_PRIORITY = "priority";
     public static final String PROP_STATUS = "status";
     public static final String PROP_DESCRIPTION = "description";

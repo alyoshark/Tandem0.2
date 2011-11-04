@@ -58,7 +58,7 @@ public class CommandParserImpl implements CommandParser {
 				this.command = fp.getDesc();
 			} catch (ArrayIndexOutOfBoundsException e) {
 				Logger.getLogger(CommandParserImpl.class.getName()).log(
-						Level.SEVERE, null, e);
+						Level.SEVERE, "Not enough parameters supplied", e);
 				throw e;
 			}
 		} else if ((this.due = Chronic.parse(command).getEndCalendar()) != null) {
@@ -67,7 +67,7 @@ public class CommandParserImpl implements CommandParser {
 					"Can't parse this command, most likely an incorrect input",
 					0);
 			Logger.getLogger(CommandParserImpl.class.getName()).log(
-					Level.SEVERE, null, e);
+					Level.SEVERE, "Parsing fails in CommandParser", e);
 			throw e;
 		}
 	}
