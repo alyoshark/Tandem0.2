@@ -23,13 +23,4 @@ public class Log {
 	public Logger getMyLogger() {
 		return myLogger;
 	}
-
-	public static void main(String args[]) {
-		Log log = Log.getLogger();
-		try {
-			int a = 2 / 0;
-		} catch (Exception e) {
-			log.getMyLogger().error("error", e);
-		}
-	}
 }
