@@ -10,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static w10j1.tandem.storage.datakeeper.TaskComparator.*;
 import w10j1.tandem.logger.Log;
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
@@ -26,7 +23,7 @@ import w10j1.tandem.storage.task.api.Task;
 public class DataKeeperImpl implements DataKeeper {
 
 	private ArrayList<Task> taskList = new ArrayList<Task>();
-	private ArrayList<Task> searchList = new ArrayList<Task>();
+	private ArrayList<Integer> searchList = new ArrayList<Integer>();
 	private Task tempTask;
 	private Log log = Log.getLogger();
 
@@ -44,31 +41,31 @@ public class DataKeeperImpl implements DataKeeper {
 
 	@Override
 	public String ascDue() {
-		Collections.sort(searchList, ascending(DUE_SORT));
+		Collections.sort(taskList, ascending(DUE_SORT));
 		return resultString();
 	}
 
 	@Override
 	public String decDue() {
-		Collections.sort(searchList, decending(DUE_SORT));
+		Collections.sort(taskList, decending(DUE_SORT));
 		return resultString();
 	}
 
 	@Override
 	public String ascPriority() {
-		Collections.sort(searchList, ascending(PRIORITY_SORT));
+		Collections.sort(taskList, ascending(PRIORITY_SORT));
 		return resultString();
 	}
 
 	@Override
 	public String decPriority() {
-		Collections.sort(searchList, decending(PRIORITY_SORT));
+		Collections.sort(taskList, decending(PRIORITY_SORT));
 		return resultString();
 	}
 
 	@Override
 	public String memToFile() {
-		Collections.sort(getTaskList(), ascending(DUE_SORT));
+		ascDue();
 		StringBuilder sb = new StringBuilder();
 		for (Task t : getTaskList()) {
 			sb.append(t.toString());
@@ -81,7 +78,7 @@ public class DataKeeperImpl implements DataKeeper {
 		ascDue();
 		int len = Math.min(taskList.size(), 10);
 		for (int i = 0; i < len; i++)
-			searchList.add(taskList.get(i));
+			searchList.add(taskList.indexOf(taskList.get(i)));
 	}
 	
 	@Override
@@ -105,9 +102,8 @@ public class DataKeeperImpl implements DataKeeper {
 		assert (searchList != null);
 		assert (searchList.size() >= 0);
 		StringBuilder sb = new StringBuilder();
-		for (Task t : searchList) {
-			sb.append(searchList.indexOf(t)).append(". ").append(t.toString())
-					.append("\r\n");
+		for (int i = 0; i < searchList.size(); i++) {
+			sb.append(i+1).append(". ").append(taskList.get(searchList.get(i)));
 		}
 		return sb.toString();
 	}
@@ -132,7 +128,7 @@ public class DataKeeperImpl implements DataKeeper {
 				}
 			}
 			if (hasAllWords) {
-				searchList.add(task);
+				searchList.add(taskList.indexOf(task));
 			}
 		}
 	}
@@ -143,7 +139,7 @@ public class DataKeeperImpl implements DataKeeper {
 		for (Task task : getTaskList()) {
 			if (task.getDue().compareTo(interval.getBeginCalendar()) >= 0
 					&& task.getDue().compareTo(interval.getEndCalendar()) <= 0) {
-				searchList.add(task);
+				searchList.add(taskList.indexOf(task));
 			}
 		}
 	}
@@ -177,7 +173,7 @@ public class DataKeeperImpl implements DataKeeper {
 	}
 
 	@Override
-	public ArrayList<Task> getSearchList() {
+	public ArrayList<Integer> getSearchList() {
 		return searchList;
 	}
 

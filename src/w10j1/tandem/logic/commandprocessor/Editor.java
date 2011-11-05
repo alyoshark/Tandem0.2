@@ -3,8 +3,6 @@ package w10j1.tandem.logic.commandprocessor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +12,7 @@ import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 public class Editor {
 
 	public final Pattern splitter = Pattern.compile(
-			"e\\s+(\\d+)\\s+((time)|(desc))\\s+(.*)", Pattern.CASE_INSENSITIVE);
+			"\\s*(\\d+)\\s+((time)|(desc))\\s+(.*)", Pattern.CASE_INSENSITIVE);
 	public final SimpleDateFormat df = new SimpleDateFormat("ddMMyy hhmm");
 
 	public enum Attributes {
@@ -33,10 +31,11 @@ public class Editor {
 		case DUE:
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(df.parse(content));
-			dk.getTaskList().get(index-1).setDue(cal);
+			dk.getTaskList().get(dk.getSearchList().get(index - 1)).setDue(cal);
 			break;
 		case DESC:
-			dk.getTaskList().get(index-1).setDesc(content);
+			dk.getTaskList().get(dk.getSearchList().get(index - 1))
+					.setDesc(content);
 			break;
 		}
 	}
@@ -56,8 +55,7 @@ public class Editor {
 			} else {
 				ParseException e = new ParseException("Cannot match pattern "
 						+ splitter, 0);
-				Logger.getLogger(Editor.class.getName()).log(Level.SEVERE,
-						"Cannot match pattern " + splitter, e);
+				log.getMyLogger().error("error", e);
 				throw e;
 			}
 		} catch (NumberFormatException e) {

@@ -26,9 +26,17 @@ public class CommandParserTest {
 
 	@Test
 	public void testSetRequest() throws ParseException {
-		cp.readRawInput("s     	 ");
+		cp.readRawInput("q");
 		cp.setRequest();
-		System.out.println(cp.getRequest());
+		assertEquals("q", cp.getRequest());
+		cp.readRawInput("s");
+		cp.setRequest();
 		assertEquals("s", cp.getRequest());
+		cp.readRawInput("e 2 time 061111 2359");
+		cp.setRequest();
+		assertEquals("e", cp.getRequest());
+		cp.readRawInput("b");
+		cp.setRequest();
+		assertEquals("b", cp.getRequest());
 	}
 }

@@ -16,7 +16,7 @@ public interface CommandProcessor {
     
 	public void back();
 
-    public String search(String command) throws Exception;
+    public void search(String command) throws Exception;
 
     public void edit(String command) throws NumberFormatException, ParseException;
 
@@ -29,4 +29,6 @@ public interface CommandProcessor {
     public DataKeeper getDataKeeper();
 
 	public FileOperatorAPI getFileOperator();
+
+	public String getSearchResult();
 }

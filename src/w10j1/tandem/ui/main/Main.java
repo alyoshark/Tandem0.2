@@ -11,14 +11,16 @@ public class Main {
 	public static Scanner sc = new Scanner(System.in);
 	public final static SimpleDateFormat formatter = new SimpleDateFormat(
 			"dd/MM/yyyy hh:mm");
-
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome to Tandem! It is now "
 				+ formatter.format(new Date()));
 		userCommand = new UserCommand();
+		
 		while (true) {
 			userCommand.initCommand(sc.nextLine());
-			System.out.println(userCommand.getExecutionResults());
+			if (userCommand.getExecutionResults() != null)
+				System.out.println(userCommand.getExecutionResults());
 		}
 	}
 }

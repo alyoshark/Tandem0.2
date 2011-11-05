@@ -41,5 +41,5 @@ public interface DataKeeper {
 
 	public ArrayList<Task> getTaskList();
 
-	public ArrayList<Task> getSearchList();
+	public ArrayList<Integer> getSearchList();
 }

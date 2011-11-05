@@ -25,7 +25,7 @@ public class CommandParserImpl implements CommandParser {
 	private Calendar due;
 	private String request = "";
 	private String command = "";
-	
+
 	private Log log = Log.getLogger();
 
 	public CommandParserImpl() {
@@ -38,7 +38,8 @@ public class CommandParserImpl implements CommandParser {
 	}
 
 	@Override
-	public void setRequest() throws ParseException {
+	public void setRequest() throws ParseException,
+			StringIndexOutOfBoundsException {
 		Matcher match = COMMAND_ISO.matcher(command);
 		if (match.find()) {
 			request = match.group(1);
@@ -46,11 +47,14 @@ public class CommandParserImpl implements CommandParser {
 		} else if (command.split("\\s+").length > 1) {
 			request = "a";
 		} else {
-			ParseException e = new ParseException(
-					"Can't parse this command, most likely not enough arguments",
-					0);
-			log.getMyLogger().error("error", e);
-			throw e;
+			request = command.substring(0, 1).toLowerCase();
+			if (!Pattern.compile("[abdeqrsu]").matcher(request).find()) {
+				ParseException e = new ParseException(
+						"Can't parse this command, most likely not enough arguments",
+						0);
+				log.getMyLogger().error("error", e);
+				throw e;
+			}
 		}
 	}
 
