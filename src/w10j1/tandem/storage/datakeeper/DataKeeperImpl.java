@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static w10j1.tandem.storage.datakeeper.TaskComparator.*;
+import w10j1.tandem.logger.Log;
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 import w10j1.tandem.storage.task.TaskImpl;
 import w10j1.tandem.storage.task.api.Task;
@@ -27,6 +28,7 @@ public class DataKeeperImpl implements DataKeeper {
 	private ArrayList<Task> taskList = new ArrayList<Task>();
 	private ArrayList<Task> searchList = new ArrayList<Task>();
 	private Task tempTask;
+	private Log log = Log.getLogger();
 
 	private enum undoState {
 		NULL, ADD, DEL
@@ -91,9 +93,8 @@ public class DataKeeperImpl implements DataKeeper {
 			Calendar time = Calendar.getInstance();
 			try {
 				time.setTime(formatter.parse(taskDetail[0]));
-			} catch (ParseException ex) {
-				Logger.getLogger(DataKeeperImpl.class.getName()).log(
-						Level.SEVERE, null, ex);
+			} catch (ParseException e) {
+				log.getMyLogger().error("error", e);
 			}
 			getTaskList().add(new TaskImpl(time, taskDetail[1]));
 		}

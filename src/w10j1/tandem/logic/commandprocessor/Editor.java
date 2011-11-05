@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import w10j1.tandem.logger.Log;
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 
 public class Editor {
@@ -23,6 +24,7 @@ public class Editor {
 	private int index;
 	private Attributes attr;
 	private String content;
+	private Log log = Log.getLogger();
 
 	public void edit(String command, DataKeeper dk)
 			throws NumberFormatException, ParseException {
@@ -37,7 +39,6 @@ public class Editor {
 			dk.getTaskList().get(index-1).setDesc(content);
 			break;
 		}
-		// dk.getSearchList().get(getIndex());
 	}
 
 	private void parseCommand(String command) throws NumberFormatException,
@@ -60,8 +61,7 @@ public class Editor {
 				throw e;
 			}
 		} catch (NumberFormatException e) {
-			Logger.getLogger(Editor.class.getName()).log(Level.SEVERE,
-					"Number parsing fails in Editor class", e);
+			log.getMyLogger().error("error", e);
 			throw e;
 		}
 	}

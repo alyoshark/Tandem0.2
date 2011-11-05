@@ -6,6 +6,9 @@
 	<classpathentry kind="lib" path="D:/developing/eclipse/plugins/org.eclipse.jface_3.7.0.I20110522-1430.jar"/>
 	<classpathentry kind="lib" path="D:/developing/eclipse/plugins/org.eclipse.swt.win32.win32.x86_64_3.7.1.v3738a.jar"/>
 	<classpathentry kind="lib" path="D:/developing/eclipse/plugins/org.eclipse.swt_3.7.1.v3738a.jar"/>
+	<classpathentry kind="lib" path="D:/developing/eclipse/plugins/org.apache.ant_1.8.2.v20110505-1300/lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="D:/developing/eclipse/plugins/org.apache.ant_1.8.2.v20110505-1300/lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="D:/developing/JAVA_libs/log4j-1.2.16.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -13,6 +13,8 @@ import w10j1.tandem.util.fileoprator.FileOperatorAPI;
 public interface CommandProcessor {
 
     public void add(Task task);
+    
+	public void back();
 
     public String search(String command) throws Exception;
 
@@ -27,5 +29,4 @@ public interface CommandProcessor {
     public DataKeeper getDataKeeper();
 
 	public FileOperatorAPI getFileOperator();
-    
 }

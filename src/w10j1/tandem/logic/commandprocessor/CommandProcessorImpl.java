@@ -6,6 +6,7 @@ import java.util.Calendar;
 import com.mdimension.jchronic.Chronic;
 import com.mdimension.jchronic.utils.Span;
 
+import w10j1.tandem.logger.Log;
 import w10j1.tandem.logic.commandprocessor.api.CommandProcessor;
 import w10j1.tandem.storage.datakeeper.DataKeeperImpl;
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
@@ -21,6 +22,7 @@ public class CommandProcessorImpl implements CommandProcessor {
 
 	private FileOperatorAPI fo = new FileOperator();
 	private DataKeeper dk = new DataKeeperImpl();
+	private Log log = Log.getLogger();
 
 	public CommandProcessorImpl() {
 		getFileOperator().createFile();
@@ -37,9 +39,18 @@ public class CommandProcessorImpl implements CommandProcessor {
 		String updateList = getDataKeeper().memToFile();
 		getFileOperator().writeFile(updateList);
 	}
+	
+	@Override
+	public void back() {
+		getDataKeeper().initDataKeeper();
+	}
 
 	@Override
 	public String search(String command) throws Exception {
+		if (command.isEmpty()) {
+			getDataKeeper().initDataKeeper();
+			return getDataKeeper().resultString();
+		}
 		try {
 			Span sp = createSearchSpan(command);
 			getDataKeeper().searchTask(sp);

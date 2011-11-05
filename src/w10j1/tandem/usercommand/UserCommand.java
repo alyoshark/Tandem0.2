@@ -3,6 +3,8 @@ package w10j1.tandem.usercommand;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import w10j1.tandem.logger.Log;
 import w10j1.tandem.logic.commandprocessor.CommandProcessorImpl;
 import w10j1.tandem.logic.commandprocessor.api.CommandProcessor;
 import w10j1.tandem.storage.task.TaskImpl;
@@ -16,12 +18,16 @@ import w10j1.tandem.util.commandparser.api.CommandParser;
  */
 public class UserCommand {
 
-	public CommandParser cpar = new CommandParserImpl();
-	public CommandProcessor cpro = new CommandProcessorImpl();
-	public String request = "";
-	public String command = "";
+	private static final String INSTRUCTION = "a for adding, e for edit, " +
+			"s for search, b for back from search result, r for remove" +
+			"u for undo an add or remove \r\nFor more info please refer to user manual";
+	private CommandParser cpar = new CommandParserImpl();
+	private CommandProcessor cpro = new CommandProcessorImpl();
+	private String request = "";
+	private String command = "";
 	private boolean isAfterSearch = false;
-	String executionResultStr;
+	private String executionResultStr;
+	private Log log = Log.getLogger();
 
 	public UserCommand() {
 		// Doing nothing and should not be called without initCommand();
@@ -34,16 +40,17 @@ public class UserCommand {
 	 * @param input
 	 */
 	public UserCommand(String input) {
-		cpar.readRawInput(input);
-		cpar.setRequest();
-		this.request = cpar.getRequest();
-		this.command = cpar.getCommand();
-		execute();
+		this.initCommand(input);
 	}
 
 	public void initCommand(String input) {
 		cpar.readRawInput(input);
-		cpar.setRequest();
+		try {
+			cpar.setRequest();
+		} catch (ParseException e) {
+			executionResultStr = INSTRUCTION;
+			log.getMyLogger().error("error", e);
+		}
 		this.request = cpar.getRequest();
 		this.command = cpar.getCommand();
 		execute();
@@ -67,36 +74,56 @@ public class UserCommand {
 				executionResultStr = tempTask.toString() + "is added!";
 				break;
 			} catch (ParseException e0) {
-				Logger.getLogger(UserCommand.class.getName()).log(Level.SEVERE,
-						null, e0);
-				executionResultStr = "Sorry, adding of the task failed due to failing to parse some fields :O"
+				log.getMyLogger().error("error", e0);
+				executionResultStr = "Sorry, adding of the task failed due to " +
+						"failing to parse some fields :O\n"
 						+ " Please check your input of for the date and time fields\n";
 			} catch (ArrayIndexOutOfBoundsException e1) {
-				Logger.getLogger(UserCommand.class.getName()).log(Level.SEVERE,
-						"", e1);
-				executionResultStr = "Sorry, adding of the task failed due to inadequate number of inputs :O\n";
+				log.getMyLogger().error("error", e1);
+				executionResultStr = "Sorry, adding of the task failed due to " +
+						"inadequate number of inputs :O\n";
 			}
+			break;
+		case "b":
+			if (isAfterSearch){
+				isAfterSearch = false;
+				try {
+					executionResultStr = cpro.search("");
+				} catch (Exception e) {
+					log.getMyLogger().error("error", e);
+				}
+				break;
+			}
+			break;
+		case "q":
+			log.getMyLogger().error("Normal exit");
+			System.exit(0);
 		case "s":
 			try {
 				executionResultStr = cpro.search(command);
 			} catch (Exception e) {
-				Logger.getLogger(UserCommand.class.getName()).log(Level.SEVERE,
-						null, e);
-				e.printStackTrace();
+				log.getMyLogger().error("error", e);
 			}
 			if (executionResultStr.isEmpty()) {
 				executionResultStr = "No result found.";
 				break;
 			}
 			isAfterSearch = true;
-			executionResultStr += "\r\nEnter d followed by an index to delete a task or else to go back";
+			executionResultStr += "\r\nEnter d followed by an index to " +
+					"delete a task or else to go back";
 			break;
 		case "u":
 			cpro.undo();
 			executionResultStr = "Last operation just canceled.";
 			break;
 		case "e":
-			cpro.edit(command);
+			try {
+				cpro.edit(command);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			executionResultStr = "";
 			break;
 		case "r":
@@ -104,8 +131,8 @@ public class UserCommand {
 			executionResultStr = "";
 			break;
 		default:
-			// Print an error message in the GUI.
-			// May be done by throwing an exception.
+			executionResultStr = INSTRUCTION;
+			log.getMyLogger().error("Unknown command" + request);
 		}
 	}
 }

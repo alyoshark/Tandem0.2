@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import w10j1.tandem.logger.Log;
 import w10j1.tandem.util.commandparser.api.CommandParser;
 
 /**
@@ -17,13 +18,15 @@ import w10j1.tandem.util.commandparser.api.CommandParser;
 public class CommandParserImpl implements CommandParser {
 
 	public final String DATE_PATTERN_STR = "^(([0-2]\\d)|(3[0-1])|(\\d))((/|-)?)((0[1-9])|(1[0-2])|([1-9]))";
-	public final String COMMAND_ISO_STR = "^([abdersu])(\\s+)(.*)";
+	public final String COMMAND_ISO_STR = "^([abdeqrsu])(\\s+)(.*)";
 	public final Pattern COMMAND_ISO = Pattern.compile(COMMAND_ISO_STR,
 			Pattern.CASE_INSENSITIVE);
 	public final Pattern DATE_PATTERN = Pattern.compile(DATE_PATTERN_STR);
 	private Calendar due;
 	private String request = "";
 	private String command = "";
+	
+	private Log log = Log.getLogger();
 
 	public CommandParserImpl() {
 		// Doing nothing first
@@ -35,13 +38,19 @@ public class CommandParserImpl implements CommandParser {
 	}
 
 	@Override
-	public void setRequest() {
+	public void setRequest() throws ParseException {
 		Matcher match = COMMAND_ISO.matcher(command);
 		if (match.find()) {
 			request = match.group(1);
 			command = match.group(3);
-		} else {
+		} else if (command.split("\\s+").length > 1) {
 			request = "a";
+		} else {
+			ParseException e = new ParseException(
+					"Can't parse this command, most likely not enough arguments",
+					0);
+			log.getMyLogger().error("error", e);
+			throw e;
 		}
 	}
 
@@ -58,7 +67,7 @@ public class CommandParserImpl implements CommandParser {
 				this.command = fp.getDesc();
 			} catch (ArrayIndexOutOfBoundsException e) {
 				Logger.getLogger(CommandParserImpl.class.getName()).log(
-						Level.SEVERE, "Not enough parameters supplied", e);
+						Level.WARNING, "Not enough parameters supplied", e);
 				throw e;
 			}
 		} else if ((this.due = Chronic.parse(command).getEndCalendar()) != null) {
@@ -67,7 +76,7 @@ public class CommandParserImpl implements CommandParser {
 					"Can't parse this command, most likely an incorrect input",
 					0);
 			Logger.getLogger(CommandParserImpl.class.getName()).log(
-					Level.SEVERE, "Parsing fails in CommandParser", e);
+					Level.WARNING, "Parsing fails in CommandParser", e);
 			throw e;
 		}
 	}

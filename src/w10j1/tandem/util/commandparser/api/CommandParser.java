@@ -13,7 +13,7 @@ public interface CommandParser {
 
     void readRawInput(String input);
 
-    void setRequest();
+    void setRequest() throws ParseException;
 
     public String getRequest();
 
