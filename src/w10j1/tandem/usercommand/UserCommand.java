@@ -1,6 +1,9 @@
 package w10j1.tandem.usercommand;
 
 import java.text.ParseException;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import w10j1.tandem.logger.Log;
 import w10j1.tandem.logic.commandprocessor.CommandProcessorImpl;
 import w10j1.tandem.logic.commandprocessor.api.CommandProcessor;
@@ -16,12 +19,13 @@ import w10j1.tandem.util.commandparser.api.CommandParser;
 public class UserCommand {
 
 	private static final String INSTRUCTION = "a for adding, e for edit, "
-			+ "s for search, b for back from search result, r for remove"
-			+ "u for undo an add or remove \r\nFor more info please refer to user manual";
+			+ "s for search, b for back from search result, r for remove, "
+			+ "u for undo an add or remove.\r\nFor more info please refer to user manual";
 	private CommandParser cpar = new CommandParserImpl();
 	private CommandProcessor cpro = new CommandProcessorImpl();
 	private String request = "";
 	private String command = "";
+	private String searchString = "";
 	private boolean isAfterSearch = false;
 	private String executionResultStr;
 	private Log log = Log.getLogger();
@@ -63,80 +67,115 @@ public class UserCommand {
 
 	public void execute() {
 		executionResultStr = "";
-		if (this.command == null || this.command.isEmpty()) {
+		if (request == null && (command == null || command.isEmpty())) {
 			return;
 		}
 		switch (this.request) {
 		case "a":
-			try {
-				this.cpar.processDue();
-				Task tempTask = new TaskImpl(this.cpar.getDue(),
-						this.cpar.getCommand());
-				this.cpro.add(tempTask);
-				executionResultStr = tempTask.toString() + "is added!";
-				break;
-			} catch (ParseException e0) {
-				log.getMyLogger().error("error", e0);
-				executionResultStr = "Sorry, adding of the task failed due to "
-						+ "failing to parse some fields :O\n"
-						+ " Please check your input of for the date and time fields\n";
-			} catch (ArrayIndexOutOfBoundsException e1) {
-				log.getMyLogger().error("error", e1);
-				executionResultStr = "Sorry, adding of the task failed due to "
-						+ "inadequate number of inputs :O\n";
-			}
+			executeAdd();
 			break;
 		case "b":
-			if (isAfterSearch) {
-				isAfterSearch = false;
-				try {
-					cpro.search("");
-				} catch (Exception e) {
-					log.getMyLogger().error("error", e);
-				}
-				break;
-			}
+			executeBack();
 			break;
-		case "q":  // A part that breaks the abstraction level a bit.
+		case "s":
+			executeSearch();
+			break;
+		case "u":
+			executeUndo();
+			break;
+		case "e":
+			executeEdit();
+			break;
+		case "r":
+			executeRemove();
+			break;
+		case "q": // A part that breaks the abstraction level a bit.
 			System.out.println("Thanks for using, bye!");
 			log.getMyLogger().info("Normal exit");
 			System.exit(0);
-		case "s":
-			try {
-				cpro.search(command);
-			} catch (Exception e) {
-				log.getMyLogger().error("error", e);
-			}
-			isAfterSearch = true;
-			// executionResultStr += "\r\nEnter d followed by an index to "
-			// + "delete a task or else to go back";
-			break;
-		case "u":
-			cpro.undo();
-			executionResultStr = "Last operation just canceled.";
-			break;
-		case "e":
-			try {
-				cpro.edit(command);
-			} catch (NumberFormatException e) {
-				log.getMyLogger().error("error", e);
-				executionResultStr = "Sorry, edit failed :O";
-			} catch (ParseException e) {
-				log.getMyLogger().error("error", e);
-				executionResultStr = "Sorry, edit failed :O";
-			}
-			executionResultStr = "";
-			break;
-		case "r":
-			cpro.remove(command);
-			executionResultStr = "";
-			break;
 		default:
 			executionResultStr = INSTRUCTION;
 			log.getMyLogger().info("Unknown command" + request);
 		}
-		executionResultStr = (executionResultStr == null) ?
-				cpro.getSearchResult() :
-					executionResultStr + cpro.getSearchResult();
+		if (isAfterSearch) {
+			reSearch();
+		}
+		executionResultStr = (executionResultStr == null) ? cpro
+				.getSearchResult() : executionResultStr
+				+ cpro.getSearchResult();
+	}
+
+	private void reSearch() {
+		try {
+			cpro.search(searchString);
+		} catch (Exception e) {
+			log.getMyLogger().error("error", e);
+		}
+	}
+
+	private void executeRemove() {
+		try {
+			cpro.remove(command);
+		} catch (IndexOutOfBoundsException e) {
+			executionResultStr = "Please give an index within the range, try again...\r\n";
+		}
+	}
+
+	private void executeEdit() {
+		try {
+			cpro.edit(command);
+		} catch (NumberFormatException e) {
+			log.getMyLogger().error("error", e);
+			executionResultStr = "Sorry, edit failed :O\r\n";
+		} catch (ParseException e) {
+			log.getMyLogger().error("error", e);
+			executionResultStr = "Sorry, edit failed :O\r\n";
+		}
+	}
+
+	private void executeUndo() {
+		cpro.undo();
+		executionResultStr = "Last operation just canceled.\r\n";
+	}
+
+	private void executeSearch() {
+		searchString = command;
+		try {
+			cpro.search(searchString);
+		} catch (Exception e) {
+			log.getMyLogger().error("error", e);
+		}
+		isAfterSearch = true;
+	}
+
+	private void executeBack() {
+		searchString = "";
+		if (isAfterSearch) {
+			isAfterSearch = false;
+			try {
+				cpro.search("");
+			} catch (Exception e) {
+				log.getMyLogger().error("error", e);
+			}
+		}
+	}
+
+	private void executeAdd() {
+		try {
+			this.cpar.processDue();
+			Task tempTask = new TaskImpl(this.cpar.getDue(),
+					this.cpar.getCommand());
+			this.cpro.add(tempTask);
+			executionResultStr = tempTask.toString() + "is added!\r\n";
+		} catch (ParseException e0) {
+			log.getMyLogger().error("error", e0);
+			executionResultStr = "Sorry, adding of the task failed due to "
+					+ "failing to parse some fields :O\r\n"
+					+ " Please check your input of for the date and time fields\r\n";
+		} catch (ArrayIndexOutOfBoundsException e1) {
+			log.getMyLogger().error("error", e1);
+			executionResultStr = "Sorry, adding of the task failed due to "
+					+ "inadequate number of inputs :O\r\n";
+		}
 	}
 }

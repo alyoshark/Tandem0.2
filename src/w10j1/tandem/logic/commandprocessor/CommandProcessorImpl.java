@@ -50,6 +50,7 @@ public class CommandProcessorImpl implements CommandProcessor {
 	public void search(String command) throws Exception {
 		if (command == null || command.isEmpty()) {
 			getDataKeeper().initDataKeeper();
+			return;
 		}
 		try {
 			Span sp = createSearchSpan(command);

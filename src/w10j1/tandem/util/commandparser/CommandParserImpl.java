@@ -48,6 +48,7 @@ public class CommandParserImpl implements CommandParser {
 			request = "a";
 		} else {
 			request = command.substring(0, 1).toLowerCase();
+			command = command.substring(1).trim().toLowerCase();
 			if (!Pattern.compile("[abdeqrsu]").matcher(request).find()) {
 				ParseException e = new ParseException(
 						"Can't parse this command, most likely not enough arguments",

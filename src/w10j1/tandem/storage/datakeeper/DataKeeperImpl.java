@@ -76,6 +76,7 @@ public class DataKeeperImpl implements DataKeeper {
 	@Override
 	public void initDataKeeper() {
 		ascDue();
+		searchList = new ArrayList<Integer>();
 		int len = Math.min(taskList.size(), 10);
 		for (int i = 0; i < len; i++)
 			searchList.add(taskList.indexOf(taskList.get(i)));
@@ -101,6 +102,8 @@ public class DataKeeperImpl implements DataKeeper {
 	public String resultString() {
 		assert (searchList != null);
 		assert (searchList.size() >= 0);
+		if (searchList.isEmpty())
+			return "No result found, try other keywords :)\r\n";
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < searchList.size(); i++) {
 			sb.append(i+1).append(". ").append(taskList.get(searchList.get(i)));
