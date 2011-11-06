@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  */
 public class FileOperator implements FileOperatorAPI {
 
-    protected String path = "weird_file_name.txt";
+    protected String path = "Tandem_data.txt";
     protected File fileName = new File(path);
 
     /* (non-Javadoc)

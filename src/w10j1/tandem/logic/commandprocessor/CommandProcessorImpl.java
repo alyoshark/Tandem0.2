@@ -26,6 +26,10 @@ public class CommandProcessorImpl implements CommandProcessor {
 	private DataKeeper dk = new DataKeeperImpl();
 	private Log log = Log.getLogger();
 
+	/**
+	 * Creating a DataKeeper and a FileOperator and initialize by reading from
+	 * the data file
+	 */
 	public CommandProcessorImpl() {
 		getFileOperator().createFile();
 		String dataFromFile = getFileOperator().readFile();
@@ -35,6 +39,12 @@ public class CommandProcessorImpl implements CommandProcessor {
 		getDataKeeper().fileToMem(getFileOperator().readFile());
 	}
 
+	/**
+	 * Adding a task into data
+	 * 
+	 * @param task
+	 *            the instance of Task to be added
+	 */
 	@Override
 	public void add(Task task) {
 		getDataKeeper().addTask(task);
@@ -42,11 +52,22 @@ public class CommandProcessorImpl implements CommandProcessor {
 		getFileOperator().writeFile(updateList);
 	}
 
+	/**
+	 * Getting back from a search operation to top pending tasks
+	 */
 	@Override
 	public void back() {
 		getDataKeeper().initDataKeeper();
 	}
 
+	/**
+	 * Searching in DataKeeper by time or keywords in task description
+	 * 
+	 * @param command
+	 *            a String to be searched against
+	 * @throws Exception
+	 *             various exceptions can be thrown for this method
+	 */
 	@Override
 	public void search(String command) throws Exception {
 		if (command == null || command.isEmpty()) {
@@ -64,6 +85,11 @@ public class CommandProcessorImpl implements CommandProcessor {
 		}
 	}
 
+	/**
+	 * Getting the search result in a string form
+	 * 
+	 * @return search result outputable in console
+	 */
 	@Override
 	public String getSearchResult() {
 		return getDataKeeper().resultString();

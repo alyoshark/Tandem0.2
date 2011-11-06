@@ -27,7 +27,11 @@ public class UserCommand {
 	private String executionResultStr;
 	private Log log = Log.getLogger();
 
-	public UserCommand() {
+	/**
+	 * Empty constructor won't work without initCommand so just disable for
+	 * safety concern
+	 */
+	private UserCommand() {
 		// Doing nothing and should not be called without initCommand();
 	}
 
@@ -36,12 +40,20 @@ public class UserCommand {
 	 * input)
 	 * 
 	 * @param input
+	 *            a user input from console
 	 */
 	public UserCommand(String input) {
 		this();
 		this.initCommand(input);
 	}
 
+	/**
+	 * Initialize an instance of UserCommand with a user input from console and
+	 * execute accordingly
+	 * 
+	 * @param input
+	 *            a user input from console
+	 */
 	public void initCommand(String input) {
 		cpar.readRawInput(input);
 		try {
@@ -58,11 +70,19 @@ public class UserCommand {
 		execute();
 	}
 
+	/**
+	 * Return the execution result to UI
+	 * 
+	 * @return executionResultStr
+	 */
 	public String getExecutionResults() {
 		return executionResultStr;
 	}
 
-	public void execute() {
+	/**
+	 * Execute according to this.request
+	 */
+	private void execute() {
 		executionResultStr = "";
 		if (request == null && (command == null || command.isEmpty())) {
 			return;
@@ -102,6 +122,9 @@ public class UserCommand {
 				+ cpro.getSearchResult();
 	}
 
+	/**
+	 * Doing a search again after the list changes.
+	 */
 	private void reSearch() {
 		try {
 			cpro.search(searchString);

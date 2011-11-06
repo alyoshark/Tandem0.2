@@ -28,15 +28,30 @@ public class CommandParserImpl implements CommandParser {
 
 	private Log log = Log.getLogger();
 
+	/**
+	 * Empty constructor, will have to initalized by readRawInput
+	 */
 	public CommandParserImpl() {
 		// Doing nothing first
 	}
 
+	/**
+	 * Reading input that needs to be parsed
+	 * 
+	 * @param input
+	 *            a raw input to be parsed
+	 */
 	@Override
 	public void readRawInput(String input) {
 		this.command = input.trim();
 	}
 
+	/**
+	 * Separating request from command
+	 * 
+	 * @throws ParseException
+	 * @throws StringIndexOutOfBoundsException
+	 */
 	@Override
 	public void setRequest() throws ParseException,
 			StringIndexOutOfBoundsException {
@@ -59,6 +74,13 @@ public class CommandParserImpl implements CommandParser {
 		}
 	}
 
+	/**
+	 * Facilitating the adding function by retrieving a Calendar from input to
+	 * use in attribute Due for Task
+	 * 
+	 * @throws ParseException
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
 	@Override
 	public void processDue() throws ParseException,
 			ArrayIndexOutOfBoundsException {
@@ -86,16 +108,31 @@ public class CommandParserImpl implements CommandParser {
 		}
 	}
 
+	/**
+	 * Getting the user request after parsing
+	 * 
+	 * @return request
+	 */
 	@Override
 	public String getRequest() {
 		return this.request;
 	}
 
+	/**
+	 * Getting the content of a command after parsing
+	 * 
+	 * @return command
+	 */
 	@Override
 	public String getCommand() {
 		return this.command;
 	}
 
+	/**
+	 * Getting the due of a task if the command is an add
+	 * 
+	 * @return due
+	 */
 	@Override
 	public Calendar getDue() {
 		return this.due;

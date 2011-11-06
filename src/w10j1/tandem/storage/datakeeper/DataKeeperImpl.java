@@ -103,9 +103,10 @@ public class DataKeeperImpl implements DataKeeper {
 		assert (searchList != null);
 		assert (searchList.size() >= 0);
 		if (searchList.isEmpty())
-			return "No result found, try other keywords :)\r\n";
+			return "No task found\r\n";
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < searchList.size(); i++) {
+		int len = Math.min(searchList.size(), taskList.size());
+		for (int i = 0; i < len; i++) {
 			sb.append(i+1).append(". ").append(taskList.get(searchList.get(i)));
 		}
 		return sb.toString();

@@ -71,18 +71,6 @@ public class FormattedParser {
 		rawInput = input;
 	}
 
-	/**
-	 * Call the corresponding method based on the input
-	 * 
-	 * @return true if the command from the user can be executed
-	 */
-	public void processInput() {
-		if (!Character.isDigit(rawInput.charAt(0))) {
-			rawInput.charAt(0);
-		} else {
-		}
-	}
-
 	private void resetAttributes() {
 		dateIsValid = false;
 		date = month = year = hour = minute = 0;
