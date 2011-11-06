@@ -136,8 +136,10 @@ public class UserCommand {
 	private void executeRemove() {
 		try {
 			cpro.remove(command);
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e0) {
 			executionResultStr = "Please give an index within the range, try again...\r\n";
+		} catch (NumberFormatException e1) {
+			executionResultStr = "Please give an integer as index for the list shown above\r\n";
 		}
 	}
 

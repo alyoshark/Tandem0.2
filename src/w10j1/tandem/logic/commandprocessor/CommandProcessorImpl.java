@@ -121,6 +121,14 @@ public class CommandProcessorImpl implements CommandProcessor {
 		}
 	}
 
+	/**
+	 * Edit a task by specifying its index from the searchList and the attribute
+	 * to edit on
+	 * 
+	 * @param command
+	 *            an instance of String in a form of <index> <attribute name>
+	 *            <content>
+	 */
 	@Override
 	public void edit(String command) throws NumberFormatException,
 			ParseException {
@@ -129,8 +137,14 @@ public class CommandProcessorImpl implements CommandProcessor {
 		getFileOperator().writeFile(getDataKeeper().memToFile());
 	}
 
+	/**
+	 * Remove a task by specifying its index from the searchList
+	 * 
+	 * @param command
+	 *            an instance of String that can be parsed into integer
+	 */
 	@Override
-	public void remove(String command) {
+	public void remove(String command) throws NumberFormatException {
 		getDataKeeper().removeTask(
 				getDataKeeper().getTaskList().get(
 						getDataKeeper().getSearchList().get(
@@ -143,17 +157,30 @@ public class CommandProcessorImpl implements CommandProcessor {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
+	/**
+	 * Undo last faulty removal
+	 */
 	@Override
 	public void undo() {
 		if (getDataKeeper().undo())
 			getFileOperator().writeFile(getDataKeeper().memToFile());
 	}
 
+	/**
+	 * Getting the DataKeeper instance storing in it
+	 * 
+	 * @return dk the DataKeeper instance storing as a field in it
+	 */
 	@Override
 	public DataKeeper getDataKeeper() {
 		return dk;
 	}
 
+	/**
+	 * Getting the FileOperator instance storing in it
+	 * 
+	 * @return fo the FileOperator instance storing as a field in it
+	 */
 	@Override
 	public FileOperatorAPI getFileOperator() {
 		return fo;

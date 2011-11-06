@@ -1,0 +1,14 @@
+com.mdimension.jchronic
+w10j1.tandem.logger
+w10j1.tandem.logic.commandprocessor
+w10j1.tandem.logic.commandprocessor.api
+w10j1.tandem.storage.datakeeper
+w10j1.tandem.storage.datakeeper.api
+w10j1.tandem.storage.task
+w10j1.tandem.storage.task.api
+w10j1.tandem.tests
+w10j1.tandem.ui.main
+w10j1.tandem.usercommand
+w10j1.tandem.util.commandparser
+w10j1.tandem.util.commandparser.api
+w10j1.tandem.util.fileoprator

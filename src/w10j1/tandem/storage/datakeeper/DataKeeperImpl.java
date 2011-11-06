@@ -35,34 +35,54 @@ public class DataKeeperImpl implements DataKeeper {
 	private SimpleDateFormat formatter = new SimpleDateFormat(
 			"dd-MM-yyyy HH:mm");
 
+	/**
+	 * Construct DataKeeperImpl by initializing a instance of taskList
+	 */
 	public DataKeeperImpl() {
 		taskList = new ArrayList<Task>();
 	}
 
+	/**
+	 * Sort taskList in non-decreasing order of due
+	 */
 	@Override
 	public String ascDue() {
 		Collections.sort(taskList, ascending(DUE_SORT));
 		return resultString();
 	}
 
+	/**
+	 * Sort taskList in non-ascending order of due
+	 */
 	@Override
 	public String decDue() {
 		Collections.sort(taskList, decending(DUE_SORT));
 		return resultString();
 	}
 
+	/**
+	 * (Not used) Sort taskList in non-decreasing order of priority
+	 */
 	@Override
 	public String ascPriority() {
 		Collections.sort(taskList, ascending(PRIORITY_SORT));
 		return resultString();
 	}
 
+	/**
+	 * (Not used) Sort taskList in non-ascending order of priority
+	 */
 	@Override
 	public String decPriority() {
 		Collections.sort(taskList, decending(PRIORITY_SORT));
 		return resultString();
 	}
 
+	/**
+	 * Return the record in memory into a string writable to data file.
+	 * 
+	 * @return a string representation of taskList
+	 */
 	@Override
 	public String memToFile() {
 		ascDue();
@@ -73,6 +93,9 @@ public class DataKeeperImpl implements DataKeeper {
 		return sb.toString();
 	}
 
+	/**
+	 * Reset DataKeeper by storing searchList top pending tasks
+	 */
 	@Override
 	public void initDataKeeper() {
 		ascDue();
@@ -81,7 +104,10 @@ public class DataKeeperImpl implements DataKeeper {
 		for (int i = 0; i < len; i++)
 			searchList.add(taskList.indexOf(taskList.get(i)));
 	}
-	
+
+	/**
+	 * Parse the string of file into memory, storing in taskList
+	 */
 	@Override
 	public void fileToMem(String fromFile) {
 		String[] tempList = fromFile.split("\r\n");
@@ -98,6 +124,12 @@ public class DataKeeperImpl implements DataKeeper {
 		}
 	}
 
+	/**
+	 * Return the search result in memory into a string writable onto both
+	 * console and data file
+	 * 
+	 * @return a string representation of searchList
+	 */
 	@Override
 	public String resultString() {
 		assert (searchList != null);
@@ -107,11 +139,15 @@ public class DataKeeperImpl implements DataKeeper {
 		StringBuilder sb = new StringBuilder();
 		int len = Math.min(searchList.size(), taskList.size());
 		for (int i = 0; i < len; i++) {
-			sb.append(i+1).append(". ").append(taskList.get(searchList.get(i)));
+			sb.append(i + 1).append(". ")
+					.append(taskList.get(searchList.get(i)));
 		}
 		return sb.toString();
 	}
 
+	/**
+	 * Add a task into DataKeeper
+	 */
 	@Override
 	public void addTask(Task task) {
 		tempTask = task;
@@ -119,6 +155,12 @@ public class DataKeeperImpl implements DataKeeper {
 		rollBack = undoState.ADD;
 	}
 
+	/**
+	 * Search for tasks with specified keywords in the description
+	 * 
+	 * @param keywords
+	 *            keywords to be searched for
+	 */
 	@Override
 	public void searchTask(String keywords) {
 		String[] kw = keywords.split("\\s");
@@ -137,6 +179,12 @@ public class DataKeeperImpl implements DataKeeper {
 		}
 	}
 
+	/**
+	 * Search for tasks due within the specified interval
+	 * 
+	 * @param interval
+	 *            period return tasks will be due within
+	 */
 	@Override
 	public void searchTask(Span interval) {
 		searchList.clear();
@@ -148,6 +196,9 @@ public class DataKeeperImpl implements DataKeeper {
 		}
 	}
 
+	/**
+	 * Remove a specified task
+	 */
 	@Override
 	public void removeTask(Task task) {
 		tempTask = task;
@@ -155,6 +206,9 @@ public class DataKeeperImpl implements DataKeeper {
 		rollBack = undoState.DEL;
 	}
 
+	/**
+	 * Undo a removal by mistake
+	 */
 	@Override
 	public boolean undo() {
 		switch (rollBack) {
@@ -171,21 +225,19 @@ public class DataKeeperImpl implements DataKeeper {
 		return true;
 	}
 
+	/**
+	 * Get the taskList
+	 */
 	@Override
 	public ArrayList<Task> getTaskList() {
 		return taskList;
 	}
 
+	/**
+	 * Get the searchList
+	 */
 	@Override
 	public ArrayList<Integer> getSearchList() {
 		return searchList;
-	}
-
-	public undoState getRollBack() {
-		return rollBack;
-	}
-
-	public Task getTempTask() {
-		return tempTask;
 	}
 }
