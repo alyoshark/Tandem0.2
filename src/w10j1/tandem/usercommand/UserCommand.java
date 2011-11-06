@@ -1,9 +1,6 @@
 package w10j1.tandem.usercommand;
 
 import java.text.ParseException;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import w10j1.tandem.logger.Log;
 import w10j1.tandem.logic.commandprocessor.CommandProcessorImpl;
 import w10j1.tandem.logic.commandprocessor.api.CommandProcessor;
@@ -171,7 +168,7 @@ public class UserCommand {
 			log.getMyLogger().error("error", e0);
 			executionResultStr = "Sorry, adding of the task failed due to "
 					+ "failing to parse some fields :O\r\n"
-					+ " Please check your input of for the date and time fields\r\n";
+					+ "Please check your input of for the date and time fields\r\n";
 		} catch (ArrayIndexOutOfBoundsException e1) {
 			log.getMyLogger().error("error", e1);
 			executionResultStr = "Sorry, adding of the task failed due to "

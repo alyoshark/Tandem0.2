@@ -84,6 +84,7 @@ public class CommandProcessorImpl implements CommandProcessor {
 	private void nonFormattedSearch(String command) throws Exception {
 		try {
 			Span interval = Chronic.parse(command);
+			System.out.println(interval.getBeginCalendar().getTime()+", "+interval.getEndCalendar().getTime());/////////////
 			getDataKeeper().searchTask(interval);
 		} catch (Exception e0) {
 			try {

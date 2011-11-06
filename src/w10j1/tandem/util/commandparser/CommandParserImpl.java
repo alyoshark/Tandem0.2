@@ -75,13 +75,13 @@ public class CommandParserImpl implements CommandParser {
 						Level.WARNING, "Not enough parameters supplied", e);
 				throw e;
 			}
-		} else if ((this.due = Chronic.parse(command).getEndCalendar()) != null) {
+		} else if (Chronic.parse(command) != null) {
+			due = Chronic.parse(command).getEndCalendar();
 		} else {
 			ParseException e = new ParseException(
 					"Can't parse this command, most likely an incorrect input",
 					0);
-			Logger.getLogger(CommandParserImpl.class.getName()).log(
-					Level.WARNING, "Parsing fails in CommandParser", e);
+			log.getMyLogger().error("error", e);
 			throw e;
 		}
 	}
