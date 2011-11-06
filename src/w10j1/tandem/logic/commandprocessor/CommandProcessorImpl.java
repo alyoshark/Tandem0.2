@@ -13,6 +13,7 @@ import w10j1.tandem.util.fileoprator.FileOperator;
 import w10j1.tandem.util.fileoprator.FileOperatorAPI;
 
 import com.mdimension.jchronic.Chronic;
+import com.mdimension.jchronic.Options;
 import com.mdimension.jchronic.utils.Span;
 
 /**
@@ -83,8 +84,7 @@ public class CommandProcessorImpl implements CommandProcessor {
 
 	private void nonFormattedSearch(String command) throws Exception {
 		try {
-			Span interval = Chronic.parse(command);
-			System.out.println(interval.getBeginCalendar().getTime()+", "+interval.getEndCalendar().getTime());/////////////
+			Span interval = Chronic.parse(command, new Options(false));
 			getDataKeeper().searchTask(interval);
 		} catch (Exception e0) {
 			try {
