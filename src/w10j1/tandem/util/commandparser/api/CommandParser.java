@@ -4,8 +4,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 /**
- *
- * @author Chris
+ * 
+ * @author Chenhong
  */
 public interface CommandParser {
 

@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 
 /**
- *
- * @author Chris
+ * 
+ * @author Chenhong
  */
 public class FileOperator implements FileOperatorAPI {
 

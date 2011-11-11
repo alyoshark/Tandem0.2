@@ -4,8 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
 /**
- *
- * @author Chris
+ * 
+ * @author Chenhong
  */
 public interface Task {
 

@@ -6,6 +6,10 @@ import java.util.Scanner;
 import w10j1.tandem.logger.Log;
 import w10j1.tandem.usercommand.UserCommand;
 
+/**
+ * 
+ * @author Bing Shao, Chenhong
+ */
 public class Main {
 	public static UserCommand userCommand;
 	public static Scanner sc = new Scanner(System.in);

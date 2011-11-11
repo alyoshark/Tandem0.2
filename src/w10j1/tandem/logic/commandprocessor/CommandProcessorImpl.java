@@ -18,7 +18,7 @@ import com.mdimension.jchronic.utils.Span;
 
 /**
  * 
- * @author Chris
+ * @author Chenhong
  */
 public class CommandProcessorImpl implements CommandProcessor {
 

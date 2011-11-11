@@ -7,8 +7,8 @@ import w10j1.tandem.storage.task.api.Task;
 import w10j1.tandem.util.fileoprator.FileOperatorAPI;
 
 /**
- *
- * @author Chris
+ * 
+ * @author Chenhong
  */
 public interface CommandProcessor {
 

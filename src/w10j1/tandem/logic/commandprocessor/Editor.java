@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 import w10j1.tandem.logger.Log;
 import w10j1.tandem.storage.datakeeper.api.DataKeeper;
 
+/**
+ * 
+ * @author Chenhong
+ */
 public class Editor {
 
 	public final Pattern splitter = Pattern.compile(

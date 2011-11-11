@@ -33,25 +33,10 @@ public class CommandProcessorTest {
 	}
 
 	@Test
-	public void testSearch() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testEdit() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
 	public void testRemove() {
 		int oldSize = cp.getDataKeeper().getTaskList().size();
 		cp.remove("1");
 		assertEquals(oldSize - 1, cp.getDataKeeper().getTaskList().size());
-	}
-
-	@Test
-	public void testSetDone() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test

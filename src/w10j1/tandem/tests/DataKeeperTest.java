@@ -55,26 +55,6 @@ public class DataKeeperTest {
 		dk.decDue();
 		assertTrue(dk.getTaskList().get(0).getDue().compareTo(dk.getTaskList().get(1).getDue()) > 0);
 	}
-	
-	@Test
-	public void testMemToFile() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testFileToMem() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testResultString() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testSearchTaskSpan() {
-		fail("Not yet implemented"); // TODO
-	}
 
 	@Test
 	public void testRemoveTask() {

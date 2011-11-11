@@ -13,7 +13,7 @@ import w10j1.tandem.util.commandparser.api.CommandParser;
 
 /**
  * 
- * @author Chris
+ * @author Chenhong
  */
 public class CommandParserImpl implements CommandParser {
 

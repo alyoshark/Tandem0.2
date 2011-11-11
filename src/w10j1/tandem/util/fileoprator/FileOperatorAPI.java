@@ -1,5 +1,9 @@
 package w10j1.tandem.util.fileoprator;
 
+/**
+ * 
+ * @author Chenhong
+ */
 public interface FileOperatorAPI {
 
 	/**

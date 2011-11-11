@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * 
- * @author Chris
+ * @author Thanh, Chenhong
  */
 public class FormattedParser {
 

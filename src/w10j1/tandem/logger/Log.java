@@ -2,6 +2,10 @@ package w10j1.tandem.logger;
 
 import org.apache.log4j.*;
 
+/**
+ * 
+ * @author Chenhong
+ */
 public class Log {
 	private Logger myLogger;
 	private static Log log;

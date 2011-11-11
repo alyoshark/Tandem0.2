@@ -6,7 +6,7 @@ import w10j1.tandem.storage.task.api.Task;
 
 /**
  *
- * @author Chris
+ * @author Chenhong
  */
 enum TaskComparator implements Comparator<Task> {
 
