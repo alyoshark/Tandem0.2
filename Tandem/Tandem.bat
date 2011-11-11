@@ -1,0 +1,1 @@
+start java -Xmx512m -jar Tandem.jar
